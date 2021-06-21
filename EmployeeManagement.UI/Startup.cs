@@ -1,4 +1,5 @@
 
+using EmployeeManagement.Common.Mappings;
 using EmployeeManagement.Data.DataContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,8 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
-
+using AutoMapper;
+using EmployeeManagement.Data.Contracts;
+using EmployeeManagement.Data.Implemantation;
 
 namespace EmployeeManagement.UI
 {
@@ -26,6 +28,11 @@ namespace EmployeeManagement.UI
         {
             services.AddRazorPages();
             services.AddDbContext<EmployeeManagementContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+
+            services.AddAutoMapper(typeof(Mapps));
+            services.AddScoped<IEmployeeLeaveAllocationRepository, EmployeeLeaveAllocationRepository>();
+            services.AddScoped<IEmployeeLeaveRequestRepository, EmployeeLeaveRequestRepository>();
+            services.AddScoped<IEmployeeLeaveTypeRepository, EmployeeLeaveTypeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
